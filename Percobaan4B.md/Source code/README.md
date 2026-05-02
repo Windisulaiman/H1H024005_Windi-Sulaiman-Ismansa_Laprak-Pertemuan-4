@@ -29,8 +29,8 @@ void loop() {
   Serial.print(" | PWM: ");
   Serial.println(pwm);
 
-  delay(50); // 50ms cukup stabil untuk pembacaan potensiometer
-}()
+  delay(50); 
+}
 ````
 
 ````cpp
