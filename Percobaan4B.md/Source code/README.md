@@ -1,3 +1,5 @@
+### Program Utama Percobaan 4B.
+
 ````cpp
 #include <Arduino.h> 
 
@@ -33,6 +35,8 @@ void loop() {
 }
 ````
 
+### Code Program yang sudah dimodifikasi sesuai pertanyaan Percobaan 4B.
+
 ````cpp
 #include <Arduino.h>
 
@@ -50,8 +54,14 @@ void setup() {
 void loop() {
   nilaiADC = analogRead(potPin);
 
-  pwm = map(nilaiADC, 0, 1023, 50, 200);
-  pwm = constrain(pwm, 50, 200);
+  pwm = map(nilaiADC,
+                    0,
+                    1023,
+                    50,
+                    200);
+  pwm = constrain(pwm,
+                    50,
+                    200);
 
   analogWrite(ledPin, pwm);
 
@@ -63,4 +73,20 @@ void loop() {
   delay(50);
 }
 ````
+
+
+### Penjelasan Fungsi Code
+
+| Fungsi | Penjelasan |
+|--------|------------|
+| `#include <Arduino.h>` | Header utama Arduino framework. |
+| `pinMode(pin, mode)` | Mengkonfigurasi pin sebagai `INPUT`, `OUTPUT`, atau `INPUT_PULLUP`. Pin 9 harus diset `OUTPUT` agar dapat mengalirkan arus ke LED via PWM. |
+| `Serial.begin(baud)` | Menginisialisasi komunikasi serial UART dengan kecepatan yang ditentukan. Yang membantu `Serial.print()` untuk menampilkan output. |
+| `analogRead(pin)` | Membaca nilai tegangan analog pada pin A0–A5 menggunakan ADC internal 10-bit. Tegangan 0V menghasilkan nilai 0 dan tegangan 5V menghasilkan nilai 1023. |
+| `map(val, iMin, iMax, oMin, oMax)` | Konversi linear dari rentang input ke rentang output. Output diubah menjadi 50–200 agar LED tidak pernah benar-benar mati (pwm = 0) maupun menyala penuh (pwm = 255). |
+| `constrain(val, lo, hi)` | Membatasi nilai dalam rentang `[lo, hi]`. Mencegah noise ADC di nilai ekstrem menghasilkan pwm di luar rentang 50–200 yang bisa membuat LED mati atau menyala terlalu terang. |
+| `analogWrite(pin, value)` | Menghasilkan sinyal PWM 8-bit pada pin yang mendukung PWM (pin 3, 5, 6, 9, 10, 11 pada Uno). |
+| `Serial.print(val)` | Mengirim data ke Serial Monitor tanpa newline yang dapat menerima berbagai tipe data: `int`, `float`, `String`, maupun `char`. |
+| `Serial.println(val)` | Sama dengan `Serial.print()` dengan tambahan karakter `\r\n` di akhir baris. Sebaiknya digunakan pada bagian terakhir setiap kelompok print agar output di Serial Monitor rapi. |
+| `delay(ms)` | Memblokir eksekusi selama `ms` milidetik. Nilai 50ms cukup untuk menstabilkan pembacaan ADC dan memperbarui kecerahan LED tanpa membebani loop secara berlebihan. |
 
